@@ -12,10 +12,59 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: NavigationPage(),
     );
   }
 }
+class NavigationPage extends StatefulWidget {
+  @override
+  _NavigationPageState createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    HomePage(),
+    ContactPage(),
+    AboutPage(),
+  ];
+
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Fee Voucher App'),
+      ),
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTabTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_phone),
+            label: 'Contact',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'About',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 class HomePage extends StatelessWidget {
   @override
@@ -80,15 +129,29 @@ class _SemesterFeePageState extends State<SemesterFeePage> {
   final TextEditingController semesterController = TextEditingController();
   final TextEditingController programController = TextEditingController();
   final TextEditingController facultyController = TextEditingController();
+  final TextEditingController feeController = TextEditingController();
 
   String message = '';
 
   void createSemesterFeeVoucher() {
-    // Implement the logic to create a semester fee voucher here
-    // For demonstration purposes, I'm just showing a success message
-    setState(() {
-      message = 'Your semester fee voucher is created successfully!';
-    });
+ 
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Your Semester Fee voucher is created successfully!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -126,6 +189,10 @@ class _SemesterFeePageState extends State<SemesterFeePage> {
               controller: facultyController,
               decoration: InputDecoration(labelText: 'Faculty'),
             ),
+            TextField(
+              controller: feeController,
+              decoration: InputDecoration(labelText: 'Program Fee in Rs:'),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -152,6 +219,7 @@ class _SemesterFeePageState extends State<SemesterFeePage> {
     semesterController.dispose();
     programController.dispose();
     facultyController.dispose();
+    feeController.dispose();
     super.dispose();
   }
 }
@@ -174,17 +242,30 @@ class _RepeatFeePageState extends State<RepeatFeePage> {
   final TextEditingController semesterController = TextEditingController();
   final TextEditingController courseController = TextEditingController();
   final TextEditingController facultyController = TextEditingController();
+  final TextEditingController RepeatFeeController = TextEditingController();
 
   String message = '';
 
   void createRepeatFeeVoucher() {
-    // Implement the logic to create a semester fee voucher here
-    // For demonstration purposes, I'm just showing a success message
-    setState(() {
-      message = 'Your Repeat Fee voucher is created successfully!';
-    });
+ 
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Your Repeat Fee voucher is created successfully!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,6 +301,10 @@ class _RepeatFeePageState extends State<RepeatFeePage> {
               controller: facultyController,
               decoration: InputDecoration(labelText: 'Faculty'),
             ),
+            TextField(
+              controller: RepeatFeeController,
+              decoration: InputDecoration(labelText: 'Repeat course Fee in Rs: '),
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -246,6 +331,7 @@ class _RepeatFeePageState extends State<RepeatFeePage> {
     semesterController.dispose();
     courseController.dispose();
     facultyController.dispose();
+    RepeatFeeController.dispose();
     super.dispose();
   }
 }
@@ -265,18 +351,32 @@ class AdmissionFeePage extends StatefulWidget {
 class _AdmissionFeePageState extends State<AdmissionFeePage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fatherNameController = TextEditingController();
-  final TextEditingController semesterController = TextEditingController();
+  final TextEditingController ProgramController = TextEditingController();
   final TextEditingController facultyController = TextEditingController();
 
   String message = '';
 
-  void createRepeatFeeVoucher() {
-    // Implement the logic to create a semester fee voucher here
-    // For demonstration purposes, I'm just showing a success message
-    setState(() {
-      message = 'Your Repeat Fee voucher is created successfully!';
-    });
+  void createAdmissionFeeVoucher() {
+ 
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Success'),
+          content: Text('Your Admission voucher is created successfully!'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -298,8 +398,8 @@ class _AdmissionFeePageState extends State<AdmissionFeePage> {
               decoration: InputDecoration(labelText: 'Father\'s Name'),
             ),
             TextField(
-              controller: semesterController,
-              decoration: InputDecoration(labelText: 'Semester'),
+              controller: ProgramController,
+              decoration: InputDecoration(labelText: 'Program'),
             ),
             TextField(
               controller: facultyController,
@@ -308,7 +408,7 @@ class _AdmissionFeePageState extends State<AdmissionFeePage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                createRepeatFeeVoucher();
+                createAdmissionFeeVoucher();
               },
               child: Text('Submit'),
             ),
@@ -327,7 +427,7 @@ class _AdmissionFeePageState extends State<AdmissionFeePage> {
   void dispose() {
     nameController.dispose();
     fatherNameController.dispose();
-    semesterController.dispose();
+    ProgramController.dispose();
     facultyController.dispose();
     super.dispose();
   }
@@ -357,31 +457,118 @@ class ContactPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact'),
+        title: Text('Contact Page'),
       ),
-      body: Center(
-        child: Text(
-          'Contact information goes here',
-          style: TextStyle(fontSize: 20),
+      body: ContactForm(),
+    );
+  }
+}
+
+class ContactForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(labelText: 'Name'),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            decoration: InputDecoration(labelText: 'Contact Number'),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            decoration: InputDecoration(labelText: 'Email'),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            maxLines: 4,
+            decoration: InputDecoration(labelText: 'Message'),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              _showDialog(context);
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alert'),
+          content: Text('Form submitted'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+
+class AboutPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About Bilal Ahmad'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Name: Bilal Ahmad',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Education: Software Engineering at Islamia University Bahawalpur',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Skills:',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 5),
+            Text(
+              '- Web Development',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              '- Mobile App Development',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class MenuPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Menu'),
-      ),
-      body: Center(
-        child: Text(
-          'Menu items go here',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
-  }
-}
+
+
